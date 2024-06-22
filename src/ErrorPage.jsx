@@ -1,6 +1,5 @@
-const ErrorPage = () => {
-    return <h1>Oops! You shouldn't be here.</h1>;
-  };
-  
-  export default ErrorPage;
-  
+function ErrorPage() {
+  return <h1>Oops! You shouldn&apos;t be here.</h1>
+}
+
+export default ErrorPage
