@@ -1,5 +1,47 @@
+.page-body {
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: auto;
+  place-items: center;
+  text-align: center;
+  gap: 25px;
+}
+
 nav {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   background-color: antiquewhite;
+  width: 100vw;
+  height: 5vh;
+  font-size: x-large;
+}
+
+.item-card {
+  background-color: rgb(255, 239, 239);
+  height: 300px;
+  width: 300px;
+  border: 2px solid rgb(0, 0, 0);
+  padding: 10px;
+}
+
+.item-picture {
+  width: 200px;
+  height: 200px;
+}
+
+h1 {
+  font-size: xx-large;
+}
+
+h2 {
+  font-size: x-large;
+}
+
+h3 {
+  font-size: larger;
+}
+
+h4 {
+  font-size: large;
 }
