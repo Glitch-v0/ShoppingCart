@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 function ItemCard({ item }) {
-  const [quantity, setItemQuantity] = useState(1);
+  const [itemQuantity, setItemQuantity] = useState(1);
   const { cartItems, updateCart } = useOutletContext();
 
   function addItemToCart() {
-    console.log(`Adding ${quantity} of ${item.title} to cart`);
+    console.log(`Adding ${itemQuantity} of ${item.title} to cart`);
 
     updateCart(prevCartItems => {
       const updatedCart = [...prevCartItems];
@@ -16,12 +16,12 @@ function ItemCard({ item }) {
 
       if (itemIndex !== -1) {
         // If the item exists, update its quantity
-        updatedCart[itemIndex].quantity += quantity;
+        updatedCart[itemIndex].quantity += itemQuantity;
         console.log(`Updated item ${item.title} to quantity ${updatedCart[itemIndex].quantity}`);
       } else {
         // If the item doesn't exist, add it to the cart
-        updatedCart.push({ ...item, quantity });
-        console.log(`Added item ${item.title} with quantity ${quantity}`);
+        updatedCart.push({ ...item, quantity: itemQuantity });
+        console.log(`Added item ${item.title} with quantity ${itemQuantity}`);
       }
 
       return updatedCart;
@@ -46,11 +46,11 @@ function ItemCard({ item }) {
         type="number"
         name={`item-${item.id}-quantity`}
         id={`item-${item.id}-quantity`}
-        value={quantity}
+        value={itemQuantity}
         onChange={(e) => setItemQuantity(Number(e.target.value))}
         min="1"
       />
-      <button onClick={addItemToCart} disabled={quantity === 0}>Add To Cart</button>
+      <button onClick={addItemToCart} disabled={itemQuantity === 0}>Add To Cart</button>
     </div>
   );
 }
