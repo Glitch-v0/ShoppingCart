@@ -6,7 +6,7 @@ function CartItemCard({ item }) {
   const total = item.price * itemQuantity
   useEffect(() => {
     setItemQuantity(item.quantity)
-  }, [])
+  }, [item.quantity])
 
   return (
     <div className="cart-card">

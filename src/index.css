@@ -1,3 +1,45 @@
+@font-face {
+  font-family: 'Gaby'; /*a name to be used later*/
+  src: url('./assets/Gaby Demo.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'HenriDidot'; /*a name to be used later*/
+  src: url('./assets/HenriDidot.otf');
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  src: url('./oxygen/Oxygen-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  src: url('./oxygen/Oxygen-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  src: url('./oxygen/Oxygen-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+html {
+  font-family: 'HenriDidot';
+  font-weight: bold;
+}
+
+.welcome-image {
+  border-radius: 30%;
+  object-fit: contain;
+}
+
 .page-body {
   display: grid;
   grid-template-columns: 2;
@@ -21,6 +63,16 @@ nav {
   top: 0;
   margin-bottom: 10px;
   position: sticky;
+}
+
+.homepage-container {
+  font-family: 'Gaby';
+  font-weight: normal;
+  font-size: small;
+  display: grid;
+  place-items: center;
+  gap: 6vh;
+  margin-top: 20%;
 }
 
 .item-card, .cart-card {
@@ -96,6 +148,10 @@ input {
   margin-left: 10%;
   margin-right: 10%;
   gap: 50px;
+}
+
+.welcome {
+  font-size: 3rem;
 }
 
 h1 {
