@@ -1,15 +1,20 @@
 import { useOutletContext } from 'react-router-dom'
-import CardItemCard from './CartItemCard'
+import CartItemCard from './CartItemCard'
 
 function CartPage() {
   const { cartItems } = useOutletContext([])
   const { totalItemsInCart } = useOutletContext([])
+
+  const grandTotal = cartItems.reduce((total, product) => {
+    return total + product.price * product.quantity
+  }, 0)
   return (
-    <div>
+    <div className="cart-page-container">
       <h1>Your Shopping Cart:</h1>
-      <h2>You currently have {totalItemsInCart} items in your cart.</h2>
+      <h2>Grand Total for {totalItemsInCart} Items:</h2>
+      <h2>${grandTotal.toFixed(2)}</h2>
       {cartItems.map((cartItem) => (
-        <CardItemCard item={cartItem} key={cartItem.id * 10} />
+        <CartItemCard item={cartItem} key={cartItem.id * 10} />
       ))}
     </div>
   )

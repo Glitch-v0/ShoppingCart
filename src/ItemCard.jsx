@@ -17,11 +17,9 @@ function ItemCard({ item }) {
       if (itemIndex !== -1) {
         // If the item exists, update its quantity
         updatedCart[itemIndex].quantity += itemQuantity;
-        console.log(`Updated item ${item.title} to quantity ${updatedCart[itemIndex].quantity}`);
       } else {
         // If the item doesn't exist, add it to the cart
         updatedCart.push({ ...item, quantity: itemQuantity });
-        console.log(`Added item ${item.title} with quantity ${itemQuantity}`);
       }
 
       return updatedCart;

@@ -23,7 +23,7 @@ nav {
   position: sticky;
 }
 
-.item-card {
+.item-card, .cart-card {
   background-color: rgb(255, 239, 239);
   width: 300px;
   border: 2px solid rgb(0, 0, 0);
@@ -71,6 +71,19 @@ button:active {
 }
 input {
   width: 35px;
+}
+
+.cart-page-container {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.price-display {
+  display: grid;
+  gap: 10px;
 }
 
 .error-page {

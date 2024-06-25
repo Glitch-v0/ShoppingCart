@@ -1,29 +1,24 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-function CardItemCard({ item }) {
+function CartItemCard({ item }) {
   const [itemQuantity, setItemQuantity] = useState()
+  const total = item.price * itemQuantity
+  useEffect(() => {
+    setItemQuantity(item.quantity)
+  }, [])
 
   return (
-    <div className="item-card">
+    <div className="cart-card">
       <h3>{item.title}</h3>
       <img className="item-picture" src={item.image} alt={item.title} />
-      <h4>{item.description}</h4>
-      <h3>${item.price.toFixed(2)}</h3>
-      <div className="input-container">
-        <label htmlFor={`item-${item.id}-quantity`}>Quantity:</label>
-        <input
-          type="number"
-          name={`item-${item.id}-quantity`}
-          id={`item-${item.id}-quantity`}
-          value={itemQuantity}
-          onChange={(e) => setItemQuantity(Number(e.target.value))}
-          min="1"
-          max="25"
-        />
+      <div className="price-display">
+        <h3>Quantity: {itemQuantity}</h3>
+        <h3>Price Each: ${item.price.toFixed(2)}</h3>
+        <h3>Total: ${total.toFixed(2)}</h3>
       </div>
     </div>
   )
 }
 
-export default CardItemCard
+export default CartItemCard
