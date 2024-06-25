@@ -18,10 +18,13 @@ function App() {
       .then((response) => updateProducts(response))
       .catch((error) => console.error('Fetch error:', error))
   }, [])
-
+  const totalItemsInCart = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  )
   return (
     <div>
-      <NavBar />
+      <NavBar context={{ totalItemsInCart }} />
       <main>
         <Outlet context={{ products, cartItems, updateCart }} />
       </main>

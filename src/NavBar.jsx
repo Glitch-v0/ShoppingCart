@@ -1,12 +1,14 @@
+/* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom'
 
-function NavBar() {
+function NavBar({ context }) {
+  const { totalItemsInCart } = context
   return (
     <div className="nav-container">
       <nav>
         <Link to="/">Home</Link>
         <Link to="/shop">Shop</Link>
-        <Link to="/cart">Cart</Link>
+        <Link to="/cart">Cart: {totalItemsInCart} items</Link>
       </nav>
     </div>
   )

@@ -18,7 +18,9 @@ nav {
 }
 
 .nav-container {
+  top: 0;
   margin-bottom: 10px;
+  position: sticky;
 }
 
 .item-card {
