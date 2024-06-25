@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import NavBar from './NavBar'
 
 function App() {
+  const [cartItems, updateCart] = useState([])
   const [products, updateProducts] = useState([])
   const [errorIssue, setError] = useState(null)
 
@@ -18,11 +19,12 @@ function App() {
       .then((response) => updateProducts(response))
       .catch((error) => setError(error))
   }, [])
+
   return (
     <div>
       <NavBar />
       <main>
-        <Outlet context={[products, updateProducts]} />
+        <Outlet context={{ products, cartItems, updateCart }} />
       </main>
     </div>
   )

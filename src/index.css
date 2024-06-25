@@ -17,17 +17,24 @@ nav {
   font-size: x-large;
 }
 
+.nav-container {
+  margin-bottom: 10px;
+}
+
 .item-card {
   background-color: rgb(255, 239, 239);
-  height: 300px;
   width: 300px;
   border: 2px solid rgb(0, 0, 0);
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  place-items: center;
 }
 
 .item-picture {
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
 }
 
 h1 {
@@ -43,5 +50,5 @@ h3 {
 }
 
 h4 {
-  font-size: large;
+  font-size: small;
 }
