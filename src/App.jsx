@@ -26,7 +26,9 @@ function App() {
     <div>
       <NavBar context={{ totalItemsInCart }} />
       <main>
-        <Outlet context={{ products, cartItems, updateCart }} />
+        <Outlet
+          context={{ products, cartItems, updateCart, totalItemsInCart }}
+        />
       </main>
     </div>
   )

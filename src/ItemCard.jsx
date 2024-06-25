@@ -41,6 +41,7 @@ function ItemCard({ item }) {
       <img className="item-picture" src={item.image} alt={item.title} />
       <h4>{item.description}</h4>
       <h3>${item.price.toFixed(2)}</h3>
+      <div className='input-container'>
       <label htmlFor={`item-${item.id}-quantity`}>Quantity:</label>
       <input
         type="number"
@@ -49,7 +50,9 @@ function ItemCard({ item }) {
         value={itemQuantity}
         onChange={(e) => setItemQuantity(Number(e.target.value))}
         min="1"
+        max="25"
       />
+      </div>
       <button onClick={addItemToCart} disabled={itemQuantity === 0}>Add To Cart</button>
     </div>
   );

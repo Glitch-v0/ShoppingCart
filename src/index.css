@@ -39,6 +39,52 @@ nav {
   height: 175px;
 }
 
+button {
+  --initial-color: green;
+  --hover-color: rgb(0, 183, 0);
+  --pressed-color: #555;
+  background-color: var(--initial-color);
+  color: #fff;
+  padding: 12px 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+button:hover {
+  background-color: var(--hover-color);
+}
+
+button:active {
+  background-color: var(--pressed-color);
+  transform: scale(0.96);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+}
+
+.input-container {
+  display: flex;
+  place-items: center;
+  gap: 10px;
+}
+input {
+  width: 35px;
+}
+
+.error-page {
+  display: flex;
+  color: rgb(255, 0, 0);
+  flex-direction: column;
+  place-items: center;
+  text-align: center;
+  margin-top: 50%;
+  margin-left: 10%;
+  margin-right: 10%;
+  gap: 50px;
+}
+
 h1 {
   font-size: xx-large;
 }
