@@ -50,7 +50,7 @@ function ItemCard({ item }) {
         onChange={(e) => setItemQuantity(Number(e.target.value))}
         min="1"
       />
-      <button onClick={addItemToCart}>Add To Cart</button>
+      <button onClick={addItemToCart} disabled={quantity === 0}>Add To Cart</button>
     </div>
   );
 }

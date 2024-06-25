@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavBar from './NavBar'
@@ -5,10 +6,8 @@ import NavBar from './NavBar'
 function App() {
   const [cartItems, updateCart] = useState([])
   const [products, updateProducts] = useState([])
-  const [errorIssue, setError] = useState(null)
 
   useEffect(() => {
-    console.log('Loading stuff')
     fetch('https://fakestoreapi.com/products?limit=5', { mode: 'cors' })
       .then((response) => {
         if (response.status >= 400) {
@@ -17,7 +16,7 @@ function App() {
         return response.json()
       })
       .then((response) => updateProducts(response))
-      .catch((error) => setError(error))
+      .catch((error) => console.error('Fetch error:', error))
   }, [])
 
   return (
