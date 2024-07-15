@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 function ItemCard({ item }) {
   const [itemQuantity, setItemQuantity] = useState(1)
-  const { cartItems, updateCart } = useOutletContext()
+  const { updateCart } = useOutletContext()
 
   function addItemToCart() {
     updateCart((prevCartItems) => {
@@ -30,15 +30,20 @@ function ItemCard({ item }) {
     setItemQuantity(0)
   }
 
-  useEffect(() => {
-    console.log(`Cart items updated: ${JSON.stringify(cartItems)}`)
-  }, [cartItems])
+  const truncateDescription = (description) => {
+    if (description.length <= 50) return description
+    const truncated = description.substring(0, 50)
+    const lastSpaceIndex = truncated.lastIndexOf(' ')
+    return `${truncated.substring(0, lastSpaceIndex)} ...`
+  }
+
+  const truncatedDescription = truncateDescription(item.description)
 
   return (
     <div className="item-card">
       <h3>{item.title}</h3>
       <img className="item-picture" src={item.image} alt={item.title} />
-      <h4>{item.description}</h4>
+      <h4>{truncatedDescription}</h4>
       <h3>${item.price.toFixed(2)}</h3>
       <div className="input-container">
         <label htmlFor={`item-${item.id}-quantity`}>

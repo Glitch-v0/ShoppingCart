@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App Component > matches the snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="nav-container"
+    >
+      <nav>
+        <a
+          href="/"
+        >
+          Home
+        </a>
+        <a
+          href="/shop"
+        >
+          Shop
+        </a>
+        <a
+          href="/cart"
+        >
+          Cart: 0 items
+        </a>
+      </nav>
+    </div>
+    <main />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Home Page > matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="homepage-container"
+  >
+    <h1
+      class="welcome"
+    >
+      Fashion Boutique
+    </h1>
+    <img
+      alt="A lady carrying several bags of merchandise"
+      class="welcome-image"
+      height="200px"
+      src="/src/assets/fancy.jpg"
+    />
+    <h2>
+      Top Quality, Classy Organics
+    </h2>
+  </div>
+</DocumentFragment>
+`;

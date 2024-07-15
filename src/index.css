@@ -19,17 +19,26 @@ body {
   background-color: var(--primary-color);
 }
 
+a {
+  text-decoration: none;
+}
 .welcome-image {
-  border-radius: 50%;
+  height: 30vh;
+  border-radius: 40%;
   object-fit: contain;
+}
+
+.shopping-container {
+  display: grid;
+  text-align: center;
+  gap: 10px;
 }
 
 .page-body {
   display: grid;
-  grid-template-columns: 2;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-template-rows: auto;
   place-items: center;
-  text-align: center;
   gap: 25px;
 }
 
@@ -53,8 +62,10 @@ nav {
 .homepage-container {
   display: grid;
   place-items: center;
-  gap: 6vh;
-  margin-top: 10%;
+  text-align: center;
+  text-wrap: balance;
+  gap: 5vh;
+  padding: 5%;
 }
 
 .welcome {
@@ -64,6 +75,7 @@ nav {
 
 .item-card, .cart-card {
   background-color: rgb(255, 245, 245);
+  height: 375px;
   width: 300px;
   border: 2px solid rgb(0, 0, 0);
   border: 1px solid var(--accent-color);
@@ -95,7 +107,7 @@ button {
 }
 
 .delete-button {
-  background-color: rgb(127, 0, 0);
+  background-color: rgb(58, 0, 0);
 }
 
 button:hover {

@@ -35,7 +35,7 @@ export default function CartItemCard({ item }) {
       <img className="item-picture" src={item.image} alt={item.title} />
       <div className="price-display">
         <h3>
-          Quantity:
+          Quantity:{' '}
           <input
             type="number"
             name={`item-${item.id}-quantity`}
