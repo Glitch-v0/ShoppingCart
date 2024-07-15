@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 function ItemCard({ item }) {
   const [itemQuantity, setItemQuantity] = useState(1)
@@ -40,16 +41,18 @@ function ItemCard({ item }) {
       <h4>{item.description}</h4>
       <h3>${item.price.toFixed(2)}</h3>
       <div className="input-container">
-        <label htmlFor={`item-${item.id}-quantity`}>Quantity:</label>
-        <input
-          type="number"
-          name={`item-${item.id}-quantity`}
-          id={`item-${item.id}-quantity`}
-          value={itemQuantity}
-          onChange={(e) => setItemQuantity(Number(e.target.value))}
-          min="1"
-          max="25"
-        />
+        <label htmlFor={`item-${item.id}-quantity`}>
+          Quantity:{' '}
+          <input
+            type="number"
+            name={`item-${item.id}-quantity`}
+            id={`item-${item.id}-quantity`}
+            value={itemQuantity}
+            onChange={(e) => setItemQuantity(Number(e.target.value))}
+            min="1"
+            max="25"
+          />
+        </label>
       </div>
       <button
         type="button"
@@ -62,4 +65,14 @@ function ItemCard({ item }) {
   )
 }
 
+ItemCard.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    quantity: PropTypes.number,
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+}
 export default ItemCard
