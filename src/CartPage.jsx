@@ -13,9 +13,11 @@ function CartPage() {
       <h1>Your Shopping Cart:</h1>
       <h2>Grand Total for {totalItemsInCart} Items:</h2>
       <h2>${grandTotal.toFixed(2)}</h2>
+      <button type="button">Check Out</button>
       {cartItems.map((cartItem) => (
         <CartItemCard item={cartItem} key={cartItem.id * 10} />
       ))}
+      <button type="button">Check Out</button>
     </div>
   )
 }

@@ -10,8 +10,7 @@ function HomePage() {
         height="200px"
         className="welcome-image"
       />
-      <h2>Top quality</h2>
-      <h2>Classy Organics</h2>
+      <h2>Top Quality, Classy Organics</h2>
     </div>
   )
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function NavBar({ context }) {
   const { totalItemsInCart } = context
-  const itemWordChoice = totalItemsInCart === 1 ? 'item' : 'items';
+  const itemWordChoice = totalItemsInCart === 1 ? 'item' : 'items'
   return (
     <div className="nav-container">
       <nav>
