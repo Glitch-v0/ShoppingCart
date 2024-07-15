@@ -22,6 +22,13 @@ export default function CartItemCard({ item }) {
       )
     })
   }
+
+  function deleteItem() {
+    updateCart((prevCartItems) => {
+      return prevCartItems.filter((cartItem) => cartItem.id !== item.id)
+    })
+  }
+
   return (
     <div className="cart-card">
       <h3>{item.title}</h3>
@@ -39,6 +46,9 @@ export default function CartItemCard({ item }) {
             max="25"
           />
         </h3>
+        <button type="button" onClick={deleteItem} className="delete-button">
+        Remove Item from Cart
+      </button>
         <h3>Price Each: ${item.price.toFixed(2)}</h3>
         <h3>Total: ${total.toFixed(2)}</h3>
       </div>

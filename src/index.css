@@ -94,6 +94,10 @@ button {
   transition: 0.2s all;
 }
 
+.delete-button {
+  background-color: rgb(127, 0, 0);
+}
+
 button:hover {
   background-color: var(--hover-color);
 }
