@@ -11,7 +11,7 @@ function ItemCard({ item }) {
 
       // Find if the item already exists in the cart
       const itemIndex = updatedCart.findIndex(
-        (cartItem) => cartItem.id === item.id
+        (cartItem) => cartItem.id === item.id,
       )
 
       if (itemIndex !== -1) {
@@ -51,7 +51,11 @@ function ItemCard({ item }) {
           max="25"
         />
       </div>
-      <button onClick={addItemToCart} disabled={itemQuantity === 0}>
+      <button
+        type="button"
+        onClick={addItemToCart}
+        disabled={itemQuantity === 0}
+      >
         Add To Cart
       </button>
     </div>

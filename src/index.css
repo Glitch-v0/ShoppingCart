@@ -1,42 +1,26 @@
 @font-face {
-  font-family: 'Gaby'; /*a name to be used later*/
-  src: url('./assets/Gaby Demo.ttf') format('truetype');
+  font-family: 'Ruthie';
+  src: url('./assets/fonts/ruthie/Ruthie-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'HenriDidot'; /*a name to be used later*/
-  src: url('./assets/HenriDidot.otf');
-}
-
-@font-face {
-  font-family: 'Oxygen';
-  src: url('./oxygen/Oxygen-Bold.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Oxygen';
-  src: url('./oxygen/Oxygen-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Oxygen';
-  src: url('./oxygen/Oxygen-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
+  font-family: 'SimplySans';
+  src: url('./assets/fonts/simply-sans/SimplySans-Book.ttf');
 }
 
 
-html {
-  font-family: 'HenriDidot';
-  font-weight: bold;
+:root {
+  --primary-color: #ffe2e2;
+  --accent-color: rgb(241, 204, 204);
+}
+
+body {
+  font-family: 'SimplySans';
+  background-color: var(--primary-color);
 }
 
 .welcome-image {
-  border-radius: 30%;
+  border-radius: 50%;
   object-fit: contain;
 }
 
@@ -50,10 +34,11 @@ html {
 }
 
 nav {
+  background-color: var(--primary-color);
+  border: 1px solid var(--accent-color);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: antiquewhite;
   width: 100vw;
   height: 5vh;
   font-size: x-large;
@@ -66,19 +51,22 @@ nav {
 }
 
 .homepage-container {
-  font-family: 'Gaby';
-  font-weight: normal;
-  font-size: small;
   display: grid;
   place-items: center;
   gap: 6vh;
-  margin-top: 20%;
+  margin-top: 10%;
+}
+
+.welcome {
+  font-family: 'Ruthie';
+  font-size: 4rem;
 }
 
 .item-card, .cart-card {
-  background-color: rgb(255, 239, 239);
+  background-color: rgb(255, 245, 245);
   width: 300px;
   border: 2px solid rgb(0, 0, 0);
+  border: 1px solid var(--accent-color);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -92,7 +80,7 @@ nav {
 }
 
 button {
-  --initial-color: green;
+  --initial-color: #017dd0;
   --hover-color: rgb(0, 183, 0);
   --pressed-color: #555;
   background-color: var(--initial-color);
@@ -148,10 +136,6 @@ input {
   margin-left: 10%;
   margin-right: 10%;
   gap: 50px;
-}
-
-.welcome {
-  font-size: 3rem;
 }
 
 h1 {
