@@ -65,11 +65,11 @@ function ItemCard({ item }) {
 
   const cartButton = () =>
     isItemInCart ? (
-      <div className='shopping-button-container'>
-        <button type="button" onClick={changeCart} className='update-button'>
+      <div className="shopping-button-container">
+        <button type="button" onClick={changeCart} className="update-button">
           Update
         </button>
-        <button type="button" onClick={deleteItem} className='delete-button'>
+        <button type="button" onClick={deleteItem} className="delete-button">
           Remove
         </button>
       </div>

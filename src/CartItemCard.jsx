@@ -47,8 +47,8 @@ export default function CartItemCard({ item }) {
           />
         </h3>
         <button type="button" onClick={deleteItem} className="delete-button">
-        Remove Item from Cart
-      </button>
+          Remove Item from Cart
+        </button>
         <h3>Price Each: ${item.price.toFixed(2)}</h3>
         <h3>Total: ${total.toFixed(2)}</h3>
       </div>

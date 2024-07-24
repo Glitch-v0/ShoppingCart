@@ -37,17 +37,22 @@ exports[`Home Page > matches the snapshot 1`] = `
     <h1
       class="welcome"
     >
-      Fashion Boutique
+      Simple & Chic
     </h1>
     <img
       alt="A lady carrying several bags of merchandise"
       class="welcome-image"
-      height="200px"
       src="/src/assets/fancy.jpg"
     />
-    <h2>
-      Top Quality, Classy Organics
-    </h2>
+    <h3
+      class="home-description"
+    >
+      Finally, a place where you feel comfortable spending your money.
+      <br />
+      Worry no longer about that empty feeling in your wallet.
+      <br />
+      Instead, maximize the profit of our shareholders and fulfill our wildest dreams.
+    </h3>
   </div>
 </DocumentFragment>
 `;

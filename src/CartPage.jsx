@@ -8,6 +8,7 @@ function CartPage() {
   const grandTotal = cartItems.reduce((total, product) => {
     return total + product.price * product.quantity
   }, 0)
+
   return (
     <div className="cart-page-container">
       <h1>Your Shopping Cart:</h1>
@@ -17,7 +18,7 @@ function CartPage() {
       {cartItems.map((cartItem) => (
         <CartItemCard item={cartItem} key={cartItem.id * 10} />
       ))}
-      <button type="button">Check Out</button>
+      {cartItems.length > 1 && <button type="button">Check Out</button>}
     </div>
   )
 }

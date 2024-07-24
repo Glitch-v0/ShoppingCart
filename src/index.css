@@ -12,7 +12,6 @@
 :root {
   --primary-color: #ffe2e2;
   --accent-color: rgb(241, 204, 204);
-  --delete-color: rgb(200, 0, 0);
 }
 
 body {
@@ -50,10 +49,10 @@ a {
 nav {
   background-color: var(--primary-color);
   border: 1px solid var(--accent-color);
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100vw;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 2fr 2fr 3fr;
+  text-wrap: nowrap;
   height: 5vh;
   font-size: x-large;
 }
@@ -70,12 +69,31 @@ nav {
   text-align: center;
   text-wrap: balance;
   gap: 5vh;
-  padding: 5%;
+  padding: 2.5%;
 }
 
 .homepage-container img {
-  height: 26vh;
+  height: 300px;
 }
+
+@media screen and (max-width: 1200px) {
+  .homepage-container img {
+    height: 250px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .homepage-container img {
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .homepage-container img {
+    height: 150px;
+  }
+}
+
 
 .welcome {
   font-family: 'Ruthie';
@@ -100,8 +118,8 @@ nav {
 }
 
 button {
-  --initial-color: #017dd0;
-  --hover-color: rgb(0, 183, 0);
+  --initial-color: hsl(204, 99%, 40%);
+  --hover-color: hsl(204, 99%, 50%);
   --pressed-color: #555;
   background-color: var(--initial-color);
   color: #fff;
@@ -144,11 +162,19 @@ input {
 }
 
 .update-button {
-  background-color: rgb(0, 200, 0);
+  background-color: hsl(120, 100%, 30%);
+}
+
+.update-button:hover {
+  background-color: hsl(120, 100%, 40%);
 }
 
 .delete-button {
-  background-color: var(--delete-color);
+  background-color: hsl(0, 100%, 30%);
+}
+
+.delete-button:hover {
+  background-color: hsl(0, 100%, 40%);
 }
 
 .cart-page-container {
