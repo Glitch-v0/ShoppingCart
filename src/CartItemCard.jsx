@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 export default function CartItemCard({ item }) {
-  const [itemQuantity, setItemQuantity] = useState()
+  const [itemQuantity, setItemQuantity] = useState(1)
   const { updateCart } = useOutletContext()
 
   const total = item.price * itemQuantity

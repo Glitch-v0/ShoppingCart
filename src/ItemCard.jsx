@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 function ItemCard({ item }) {
   const [itemQuantity, setItemQuantity] = useState(1)
-  const { updateCart } = useOutletContext()
+  const { cartItems, updateCart } = useOutletContext()
+
+  // Sets the quantity shown on card to either the amount in cart, or 1 when loaded
+  useEffect(() => {
+    const cartItem = cartItems.find((itemInCart) => itemInCart.id === item.id)
+    setItemQuantity(cartItem ? cartItem.quantity : 1)
+  }, [cartItems, item.id])
 
   function addItemToCart() {
     updateCart((prevCartItems) => {
@@ -25,9 +31,26 @@ function ItemCard({ item }) {
 
       return updatedCart
     })
+  }
 
-    // Reset quantity after adding to cart if desired
-    setItemQuantity(0)
+  function changeCart() {
+    const newQuantity = Number(
+      document.getElementById(`item-${item.id}-quantity`).value,
+    )
+    setItemQuantity(newQuantity)
+    updateCart((prevCartItems) => {
+      return prevCartItems.map((cartItem) =>
+        cartItem.id === item.id
+          ? { ...cartItem, quantity: newQuantity }
+          : cartItem,
+      )
+    })
+  }
+
+  function deleteItem() {
+    updateCart((prevCartItems) => {
+      return prevCartItems.filter((cartItem) => cartItem.id !== item.id)
+    })
   }
 
   const truncateDescription = (description) => {
@@ -38,6 +61,23 @@ function ItemCard({ item }) {
   }
 
   const truncatedDescription = truncateDescription(item.description)
+  const isItemInCart = cartItems.some((cartItem) => cartItem.id === item.id)
+
+  const cartButton = () =>
+    isItemInCart ? (
+      <div className='shopping-button-container'>
+        <button type="button" onClick={changeCart} className='update-button'>
+          Update
+        </button>
+        <button type="button" onClick={deleteItem} className='delete-button'>
+          Remove
+        </button>
+      </div>
+    ) : (
+      <button type="button" onClick={addItemToCart}>
+        Add To Cart
+      </button>
+    )
 
   return (
     <div className="item-card">
@@ -59,13 +99,7 @@ function ItemCard({ item }) {
           />
         </label>
       </div>
-      <button
-        type="button"
-        onClick={addItemToCart}
-        disabled={itemQuantity === 0}
-      >
-        Add To Cart
-      </button>
+      {cartButton()}
     </div>
   )
 }

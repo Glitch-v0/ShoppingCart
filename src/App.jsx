@@ -8,7 +8,7 @@ function App() {
   const [products, updateProducts] = useState([])
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=6', { mode: 'cors' })
+    fetch('https://fakestoreapi.com/products?limit=8', { mode: 'cors' })
       .then((response) => {
         if (response.status >= 400) {
           throw new Error('server error')
