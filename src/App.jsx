@@ -7,6 +7,7 @@ function App() {
   const [cartItems, updateCart] = useState([])
   const [products, updateProducts] = useState([])
 
+  // Preemptively Loads in the items for shopping page
   useEffect(() => {
     fetch('https://fakestoreapi.com/products?limit=8', { mode: 'cors' })
       .then((response) => {
@@ -18,6 +19,8 @@ function App() {
       .then((response) => updateProducts(response))
       .catch((error) => console.error('Fetch error:', error))
   }, [])
+
+  //Calculates item quantity
   const totalItemsInCart = cartItems.reduce(
     (total, item) => total + item.quantity,
     0,

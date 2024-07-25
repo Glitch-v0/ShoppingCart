@@ -80,7 +80,7 @@ function ItemCard({ item }) {
     )
 
   return (
-    <div className="item-card">
+    <div className="item-card" data-testid="item-card">
       <h3>{item.title}</h3>
       <img className="item-picture" src={item.image} alt={item.title} />
       <h4>{truncatedDescription}</h4>
