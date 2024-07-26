@@ -1,13 +1,16 @@
 import React from 'react'
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom'
 import * as reactRouter from 'react-router-dom'
 import routes from '../src/routes'
 import App from '../src/App'
+import NavBar from '../src/NavBar'
 import HomePage from '../src/HomePage'
 import ShopPage from '../src/ShopPage'
 import CartPage from '../src/CartPage'
+import ErrorPage from '../src/ErrorPage'
 
 const mockProducts = [
     {
@@ -107,6 +110,7 @@ const mockProducts = [
       }
     }
   ]
+  
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom');
     return {
@@ -159,6 +163,101 @@ describe('ShopPage', () => {
     mockProducts.forEach(product => {
       expect(screen.getByRole('heading', {level: 3, name: product.title.trim()})).toBeInTheDocument()
       expect(screen.getByRole('heading', { name: `$${product.price.toFixed(2)}` })).toBeInTheDocument()
+      })
     })
   })
-})
+
+  describe('CartPage', () => {
+    it('render the headers', () => {
+      render(<CartPage />)
+      expect(screen.getByRole('heading', {level: 1} )).toBeInTheDocument()
+      const h2s = screen.getAllByRole('heading', {level: 2} )
+      expect(h2s).toHaveLength(2)
+    })
+  })
+
+  describe('ErrorPage', () => {
+    it('renders the error message', () => {
+      render(
+        <reactRouter.MemoryRouter initialEntries={['/non-existing-route']}>
+          <reactRouter.Routes>
+            <reactRouter.Route path="*" element={<ErrorPage />} />
+          </reactRouter.Routes>
+        </reactRouter.MemoryRouter>
+      )
+      const mainHeading = screen.getByRole('heading', { level: 1 });
+      expect(mainHeading).toHaveTextContent("Oops!");
+    })
+  })
+
+  const mockContext = {
+    totalItemsInCart: 2
+  };
+
+  const renderWithRouter = (ui, {initialEntries = ['/']} = {}) => {
+    return render(
+      <reactRouter.MemoryRouter initialEntries={initialEntries}>
+        <reactRouter.Routes>
+          <reactRouter.Route path="*" element={ui} />
+        </reactRouter.Routes>
+      </reactRouter.MemoryRouter>
+    );
+  };
+
+  describe('NavBar', () => {
+    
+
+    test('renders all links and they are clickable', async () => {
+      const { container } = renderWithRouter(<NavBar context={mockContext} />);
+  
+      expect(screen.getByText('Home')).toBeInTheDocument();
+      expect(screen.getByText('Shop')).toBeInTheDocument();
+      expect(screen.getByText('Cart: 2 items')).toBeInTheDocument();
+  
+      await userEvent.click(screen.getByText('Home'));
+      expect(container.innerHTML).toMatch(/\//);
+  
+      await userEvent.click(screen.getByText('Shop'));
+      expect(container.innerHTML).toMatch(/\/shop/);
+  
+      await userEvent.click(screen.getByText('Cart: 2 items'));
+      expect(container.innerHTML).toMatch(/\/cart/);
+    })
+  })
+  describe('NavBar navigation permutations', () => {
+    const paths = {
+      A: '/',
+      B: '/shop',
+      C: '/cart'
+    };
+  
+    const testPermutation = async (permutation) => {
+      const { container } = renderWithRouter(<NavBar context={mockContext} />, 
+        { initialEntries: permutation.map(key => paths[key]) }
+      );
+  
+      // Check if we're on the last page of the permutation
+      expect(container.innerHTML).toMatch(paths[permutation[2]]);
+  
+      // Click on the link that's not in the permutation
+      const missingKey = 'ABC'.split('').find(key => !permutation.includes(key));
+      await userEvent.click(screen.getByText(missingKey === 'A' ? 'Home' : missingKey === 'B' ? 'Shop' : 'Cart: 2 items'));
+  
+      // Check if we navigated to the correct page
+      expect(container.innerHTML).toMatch(paths[missingKey]);
+  
+      // Test back navigation
+      window.history.back();
+      expect(container.innerHTML).toMatch(paths[permutation[2]]);
+  
+      window.history.back();
+      expect(container.innerHTML).toMatch(paths[permutation[1]]);
+    };
+  
+    test('ABC permutation (Home -> Shop -> Cart)', () => testPermutation(['A', 'B', 'C']));
+    test('ACB permutation (Home -> Cart -> Shop)', () => testPermutation(['A', 'C', 'B']));
+    test('BAC permutation (Shop -> Home -> Cart)', () => testPermutation(['B', 'A', 'C']));
+    test('BCA permutation (Shop -> Cart -> Home)', () => testPermutation(['B', 'C', 'A']));
+    test('CAB permutation (Cart -> Home -> Shop)', () => testPermutation(['C', 'A', 'B']));
+    test('CBA permutation (Cart -> Shop -> Home)', () => testPermutation(['C', 'B', 'A']));
+  })

@@ -9,6 +9,7 @@ function App() {
 
   // Preemptively Loads in the items for shopping page
   useEffect(() => {
+    console.log('Reloading APP component!')
     fetch('https://fakestoreapi.com/products?limit=8', { mode: 'cors' })
       .then((response) => {
         if (response.status >= 400) {
