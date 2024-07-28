@@ -1,8 +1,7 @@
 import React from 'react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom'
+import userEvent from '@testing-library/user-event'
 import * as reactRouter from 'react-router-dom'
 import routes from '../src/routes'
 import App from '../src/App'
@@ -110,14 +109,43 @@ const mockProducts = [
       }
     }
   ]
+
+const mockCart = [
+  {
+    "id": 3,
+    "title": "Mens Cotton Jacket",
+    "price": 55.99,
+    "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+    "category": "men's clothing",
+    "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+    "rating": {
+      "rate": 4.7,
+      "count": 500
+    },
+    "quantity": 2
+  },
+  {
+    "id": 4,
+    "title": "Mens Casual Slim Fit",
+    "price": 15.99,
+    "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
+    "category": "men's clothing",
+    "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+    "rating": {
+      "rate": 2.1,
+      "count": 430
+    },
+    "quantity": 1
+  }
+]
   
   vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom');
+    const actual = await vi.importActual('react-router-dom')
     return {
       ...actual,
       useOutletContext: vi.fn()
-    };
-  });
+    }
+  })
 
 describe('HomePage', () => {
   it('renders the main heading', () => {
@@ -138,12 +166,12 @@ describe('HomePage', () => {
     expect(description).toHaveTextContent(/Finally, a place where you feel comfortable spending your money/)
   })
 
-});
+})
 
 describe('ShopPage', () => {
   beforeEach(() => {
     // Mock the useOutletContext hook before each test
-    vi.mocked(reactRouter.useOutletContext).mockReturnValue({ products: mockProducts, cartItems: [] });
+    vi.mocked(reactRouter.useOutletContext).mockReturnValue({ products: mockProducts, cartItems: [] })
   })
 
   it('renders the main heading', () => {
@@ -165,99 +193,105 @@ describe('ShopPage', () => {
       expect(screen.getByRole('heading', { name: `$${product.price.toFixed(2)}` })).toBeInTheDocument()
       })
     })
+})
+
+describe('CartPage', () => {
+  beforeEach(() => {
+    vi.mocked(reactRouter.useOutletContext).mockReturnValue({ cartItems: mockCart,
+      totalItemsInCart: 3, })
+    render(<CartPage />)
   })
-
-  describe('CartPage', () => {
-    it('render the headers', () => {
-      render(<CartPage />)
-      expect(screen.getByRole('heading', {level: 1} )).toBeInTheDocument()
-      const h2s = screen.getAllByRole('heading', {level: 2} )
-      expect(h2s).toHaveLength(2)
-    })
+  it('render the headers', () => {
+    expect(screen.getByRole('heading', {level: 1} )).toBeInTheDocument()
+    const h2s = screen.getAllByRole('heading', {level: 2} )
+    expect(h2s).toHaveLength(2)
   })
-
-  describe('ErrorPage', () => {
-    it('renders the error message', () => {
-      render(
-        <reactRouter.MemoryRouter initialEntries={['/non-existing-route']}>
-          <reactRouter.Routes>
-            <reactRouter.Route path="*" element={<ErrorPage />} />
-          </reactRouter.Routes>
-        </reactRouter.MemoryRouter>
-      )
-      const mainHeading = screen.getByRole('heading', { level: 1 });
-      expect(mainHeading).toHaveTextContent("Oops!");
-    })
+  it('displays cart items', () => {
+    const cardh3s = screen.getAllByRole('heading', {level: 3} )
+    expect(cardh3s).toHaveLength(mockCart.length*4) //Four h3 headers on each separate item card
   })
+})
 
-  const mockContext = {
-    totalItemsInCart: 2
-  };
-
-  const renderWithRouter = (ui, {initialEntries = ['/']} = {}) => {
-    return render(
-      <reactRouter.MemoryRouter initialEntries={initialEntries}>
+describe('ErrorPage', () => {
+  it('renders the error message', () => {
+    render(
+      <reactRouter.MemoryRouter initialEntries={['/non-existing-route']}>
         <reactRouter.Routes>
-          <reactRouter.Route path="*" element={ui} />
+          <reactRouter.Route path="*" element={<ErrorPage />} />
         </reactRouter.Routes>
       </reactRouter.MemoryRouter>
-    );
-  };
-
-  describe('NavBar', () => {
-    
-
-    test('renders all links and they are clickable', async () => {
-      const { container } = renderWithRouter(<NavBar context={mockContext} />);
-  
-      expect(screen.getByText('Home')).toBeInTheDocument();
-      expect(screen.getByText('Shop')).toBeInTheDocument();
-      expect(screen.getByText('Cart: 2 items')).toBeInTheDocument();
-  
-      await userEvent.click(screen.getByText('Home'));
-      expect(container.innerHTML).toMatch(/\//);
-  
-      await userEvent.click(screen.getByText('Shop'));
-      expect(container.innerHTML).toMatch(/\/shop/);
-  
-      await userEvent.click(screen.getByText('Cart: 2 items'));
-      expect(container.innerHTML).toMatch(/\/cart/);
-    })
+    )
+    const mainHeading = screen.getByRole('heading', { level: 1 })
+    expect(mainHeading).toHaveTextContent("Oops!")
   })
-  describe('NavBar navigation permutations', () => {
-    const paths = {
-      A: '/',
-      B: '/shop',
-      C: '/cart'
-    };
-  
-    const testPermutation = async (permutation) => {
-      const { container } = renderWithRouter(<NavBar context={mockContext} />, 
-        { initialEntries: permutation.map(key => paths[key]) }
-      );
-  
-      // Check if we're on the last page of the permutation
-      expect(container.innerHTML).toMatch(paths[permutation[2]]);
-  
-      // Click on the link that's not in the permutation
-      const missingKey = 'ABC'.split('').find(key => !permutation.includes(key));
-      await userEvent.click(screen.getByText(missingKey === 'A' ? 'Home' : missingKey === 'B' ? 'Shop' : 'Cart: 2 items'));
-  
-      // Check if we navigated to the correct page
-      expect(container.innerHTML).toMatch(paths[missingKey]);
-  
-      // Test back navigation
-      window.history.back();
-      expect(container.innerHTML).toMatch(paths[permutation[2]]);
-  
-      window.history.back();
-      expect(container.innerHTML).toMatch(paths[permutation[1]]);
-    };
-  
-    test('ABC permutation (Home -> Shop -> Cart)', () => testPermutation(['A', 'B', 'C']));
-    test('ACB permutation (Home -> Cart -> Shop)', () => testPermutation(['A', 'C', 'B']));
-    test('BAC permutation (Shop -> Home -> Cart)', () => testPermutation(['B', 'A', 'C']));
-    test('BCA permutation (Shop -> Cart -> Home)', () => testPermutation(['B', 'C', 'A']));
-    test('CAB permutation (Cart -> Home -> Shop)', () => testPermutation(['C', 'A', 'B']));
-    test('CBA permutation (Cart -> Shop -> Home)', () => testPermutation(['C', 'B', 'A']));
+})
+
+const mockContext = {
+  totalItemsInCart: 2,
+}
+
+const renderWithRouter = (ui, {initialEntries = ['/']} = {}) => {
+  return render(
+    <reactRouter.MemoryRouter initialEntries={initialEntries}>
+      <reactRouter.Routes>
+        <reactRouter.Route path="*" element={ui} />
+      </reactRouter.Routes>
+    </reactRouter.MemoryRouter>
+  )
+}
+
+describe('NavBar', () => {
+  test('renders all links and they are clickable', async () => {
+    const { container } = renderWithRouter(<NavBar context={mockContext} />)
+
+    expect(screen.getByText('Home')).toBeInTheDocument()
+    expect(screen.getByText('Shop')).toBeInTheDocument()
+    expect(screen.getByText('Cart: 2 items')).toBeInTheDocument()
+
+    await userEvent.click(screen.getByText('Home'))
+    expect(container.innerHTML).toMatch(/\//)
+
+    await userEvent.click(screen.getByText('Shop'))
+    expect(container.innerHTML).toMatch(/\/shop/)
+
+    await userEvent.click(screen.getByText('Cart: 2 items'))
+    expect(container.innerHTML).toMatch(/\/cart/)
   })
+})
+describe('NavBar navigation permutations', () => {
+  const paths = {
+    A: '/',
+    B: '/shop',
+    C: '/cart'
+  }
+
+  const testPermutation = async (permutation) => {
+    const { container } = renderWithRouter(<NavBar context={mockContext} />, 
+      { initialEntries: permutation.map(key => paths[key]) }
+    )
+
+    // Check if we're on the last page of the permutation
+    expect(container.innerHTML).toMatch(paths[permutation[2]])
+
+    // Click on the link that's not in the permutation
+    const missingKey = 'ABC'.split('').find(key => !permutation.includes(key))
+    await userEvent.click(screen.getByText(missingKey === 'A' ? 'Home' : missingKey === 'B' ? 'Shop' : 'Cart: 2 items'))
+
+    // Check if we navigated to the correct page
+    expect(container.innerHTML).toMatch(paths[missingKey])
+
+    // Test back navigation
+    window.history.back()
+    expect(container.innerHTML).toMatch(paths[permutation[2]])
+
+    window.history.back()
+    expect(container.innerHTML).toMatch(paths[permutation[1]])
+  }
+
+  test('ABC permutation (Home -> Shop -> Cart)', () => testPermutation(['A', 'B', 'C']))
+  test('ACB permutation (Home -> Cart -> Shop)', () => testPermutation(['A', 'C', 'B']))
+  test('BAC permutation (Shop -> Home -> Cart)', () => testPermutation(['B', 'A', 'C']))
+  test('BCA permutation (Shop -> Cart -> Home)', () => testPermutation(['B', 'C', 'A']))
+  test('CAB permutation (Cart -> Home -> Shop)', () => testPermutation(['C', 'A', 'B']))
+  test('CBA permutation (Cart -> Shop -> Home)', () => testPermutation(['C', 'B', 'A']))
+})
