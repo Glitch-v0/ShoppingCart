@@ -196,10 +196,19 @@ describe('ShopPage', () => {
 })
 
 describe('CartPage', () => {
+  const mockUpdateCart = vi.fn();
   beforeEach(() => {
     vi.mocked(reactRouter.useOutletContext).mockReturnValue({ cartItems: mockCart,
-      totalItemsInCart: 3, })
-    render(<CartPage />)
+      totalItemsInCart: 3, updateCart: mockUpdateCart})
+    render(
+    <reactRouter.BrowserRouter>
+      <reactRouter.Routes>
+        <reactRouter.Route path="/" element={<App />}>
+          <reactRouter.Route index element={< CartPage />} />
+        </reactRouter.Route>
+      </reactRouter.Routes>
+    </reactRouter.BrowserRouter>
+    )
   })
   it('render the headers', () => {
     expect(screen.getByRole('heading', {level: 1} )).toBeInTheDocument()
@@ -209,6 +218,17 @@ describe('CartPage', () => {
   it('displays cart items', () => {
     const cardh3s = screen.getAllByRole('heading', {level: 3} )
     expect(cardh3s).toHaveLength(mockCart.length*4) //Four h3 headers on each separate item card
+  })
+  it('remove item button calls updateCart', async () => {
+    const buttons = screen.getAllByRole('button', { name: /Remove Item from Cart/i })
+    await userEvent.click(buttons[0]) 
+    expect(mockUpdateCart).toHaveBeenCalledOnce() //the delete function eventually calls App's state updater 'updateCart'
+  })
+  it('changing item quantity calls updateCart ', async () => {
+    const input = screen.getAllByRole('spinbutton')[0]
+    await userEvent.clear(input)
+    await userEvent.type(input, '5')
+    expect(mockUpdateCart).toHaveBeenCalled() //the changeCart function eventually calls App's state updater 'updateCart'
   })
 })
 
